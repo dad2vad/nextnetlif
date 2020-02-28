@@ -1,0 +1,162 @@
+backend:
+  name: git-gateway
+  # name: test-repo
+  branch: master
+media_folder: public/img
+public_folder: img
+# publish_mode: editorial_workflow
+collections:
+  # -------------------
+  # pages collection
+  # -------------------
+  - name: "pages"
+    label: "Pages"
+    files:
+      # -------------------
+      # homepage
+      # -------------------
+    - label: "Home"
+      name: "home"
+      file: "content/home.md"
+      fields:
+        - { label: "Title", name: "title", widget: "string"}
+        - { label: "Publish Date", name: "date", widget: "datetime"}
+        - { label: "Modules",
+            name: "modules",
+            widget: "relation",
+            multiple: true,
+            collection: "modules",
+            searchFields: ["attributes.title", "attributes.type"],
+            valueField: "attributes",
+            displayFields: ["attributes.title"],
+            required: false}
+        - { label: "Header Items",
+            name: "headerItems",
+            widget: "relation",
+            multiple: true,
+            collection: "headerLinks",
+            searchFields: ["attributes.title"],
+            valueField: "attributes",
+            displayFields: ["attributes.title"],
+            required: false}
+        - { label: "Footer Items",
+            name: "footerItems",
+            widget: "relation",
+            multiple: true,
+            collection: "footerLinks",
+            searchFields: ["attributes.title"],
+            valueField: "attributes",
+            displayFields: ["attributes.title"],
+            required: false}
+  # -------------------
+  # modules collection
+  # -------------------
+  - name: "modules"
+    label: 'Modules'
+    folder: 'content/modules'
+    create: true # Allow users to create new documents in this collection
+    fields:
+    - { label: "Nickname", name: "title", widget: "string"}
+    - label: "Attributes"
+      name: "attributes"
+      widget: "object"
+      fields:
+        - { label: "Type", name: "type", widget: "select", options: ["banner", "banner-with-button"]}
+        - { label: "Title", name: "title", widget: "string"}
+        - { label: "Body", name: "body", widget: "markdown"}
+        - { label: "Image", name: "image", widget: "image", required: false}
+        - label: "Button"
+          name: "button"
+          widget: "object"
+          required: false
+          fields:
+          - { label: "Title", name: "title", widget: "string"}
+          - { label: "href", name: "href", widget: "string"}
+  # -------------------
+  # headerLinks collection
+  # -------------------
+  - name: "headerLinks"
+    label: 'Header Links'
+    folder: 'content/headerLinks'
+    create: true # Allow users to create new documents in this collection
+    fields:
+    - { label: "Title", name: "title", widget: "string"}
+    - label: "Attributes"
+      name: "attributes"
+      widget: "object"
+      fields:
+        - { label: "Title", name: "title", widget: "string"}
+        - { label: "href", name: "href", widget: "text"}
+        - { label: "Image", name: "image", widget: "image", required: false}
+  # -------------------
+  # footerLinks collection
+  # -------------------
+  - name: "footerLinks"
+    label: 'Footer Links'
+    folder: 'content/footerLinks'
+    create: true # Allow users to create new documents in this collection
+    fields:
+    - { label: "Title", name: "title", widget: "string"}
+    - label: "Attributes"
+      name: "attributes"
+      widget: "object"
+      fields:
+        - { label: "Title", name: "title", widget: "string"}
+        - { label: "href", name: "href", widget: "text"}
+        - { label: "Image", name: "image", widget: "image", required: false}
+  # -------------------
+  # styles collection
+  # -------------------
+  - name: "styles"
+    label: 'Page Styles'
+    folder: 'content/styles'
+    create: true # Allow users to create new documents in this collection
+    fields:
+    - { label: "Title", name: "title", widget: "string"}
+    - label: "Attributes"
+      name: "attributes"
+      widget: "object"
+      fields:
+          - { label: "Class", name: "class", widget: "string"}
+          - { label: "Rule", name: "rule", widget: "string"}
+          - { label: "Value", name: "value", widget: "string"}
+
+  # -------------------
+  # posts collection
+  # -------------------
+  # - name: 'posts' # Used in routes, ie.: /admin/collections/:slug/edit
+  #   label: 'Posts' # Used in the UI
+  #   label_singular: 'Post' # Used in the UI, ie: "New Post"
+  #   description: >
+  #     The description is a great place for tone setting, high level information, and editing
+  #     guidelines that are specific to a collection.
+  #   folder: 'content/posts'
+  #   slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+  #   summary: '{{title}} -- {{year}}/{{month}}/{{day}}'
+  #   create: true # Allow users to create new documents in this collection
+  #   fields: # The fields each document in this collection have
+  #     - { label: 'Title', name: 'title', widget: 'string', tagname: 'h1' }
+  #     - {
+  #         label: 'Publish Date',
+  #         name: 'date',
+  #         widget: 'datetime',
+  #         dateFormat: 'YYYY-MM-DD',
+  #         timeFormat: 'HH:mm',
+  #         format: 'YYYY-MM-DD HH:mm',
+  #       }
+  #     - label: 'Cover Image'
+  #       name: 'image'
+  #       widget: 'image'
+  #       required: false
+
+  #     - { label: 'Body', name: 'body', widget: 'markdown', hint: 'Main content goes here.' }
+  # -------------------
+  # faq collection
+  # -------------------
+  # - name: 'faq' # Used in routes, ie.: /admin/collections/:slug/edit
+  #   label: 'FAQ' # Used in the UI
+  #   folder: 'content/faqs'
+  #   create: true # Allow users to create new documents in this collection
+  #   fields: # The fields each document in this collection have
+  #     - { label: 'Question', name: 'title', widget: 'string', tagname: 'h1' }
+  #     - { label: 'Answer', name: 'body', widget: 'markdown' }
